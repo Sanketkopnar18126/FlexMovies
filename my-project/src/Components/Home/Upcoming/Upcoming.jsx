@@ -3,17 +3,14 @@ import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 export const Upcoming = () => {
   const [data, setdata] = useState();
 
-const [index.setindex]=useState(0)
+  const [index, setindex] = useState(0);
 
-
-const onHandleRight=()=>{
-  setindex((prev)=>(prev+1))
-}
-
-const onHandleLeft=()=>{
-
-  setindex((prev)=>(prev-1))
-}
+  const onHandleNext = (item) => {
+    setindex((prev) => (prev + 1) % item.length);
+  };
+  const onHandlePrev = (item) => {
+    setindex((prev) => (prev - 1 + item.length) % item.length);
+  };
 
   useEffect(() => {
     const Upcoming = async () => {
@@ -35,7 +32,11 @@ const onHandleLeft=()=>{
         <div className="flex gap-5  overflow-hidden ml-[20px] relative">
           {data &&
             data.map((item) => (
-              <div key={item.id} className="max-w-[15rem]">
+              <div
+                key={item.id}
+                className="max-w-[15rem] "
+                style={{ transform: `translateX(-${index * 260}px)` }}
+              >
                 <div className="bg-white rounded-lg h-[345px] overflow-hidden shadow-md transition-transform transform hover:scale-105 w-[234px]">
                   <img
                     className="w-full h-full  object-cover object-center rounded-t-lg"
@@ -51,12 +52,20 @@ const onHandleLeft=()=>{
                 </div>
               </div>
             ))}
-
-    
-<div className="absolute left-[30px] top-[144px] rounded-[50%]   hover:bg-[#0000003d] w-[43px] h-[43px] p-[7px] ">
+{index>=1&&(
+          <div
+            onClick={() => onHandlePrev(data)}
+            className="absolute left-[30px] top-[144px] rounded-[50%]   hover:bg-[#0000003d] w-[43px] h-[43px] p-[7px] "
+          >
             <SlArrowLeft className="text-white text-[25px] mt-[2px] hover:text-[#ffffff99]" />
           </div>
-          <div className="absolute right-[30px] top-[140px] rounded-[50%] hover:bg-[#0000003d] w-[43px] h-[43px] p-[7px]">
+)}
+
+
+          <div
+            onClick={() => onHandleNext(data)}
+            className="absolute right-[30px] top-[140px] rounded-[50%] hover:bg-[#0000003d] w-[43px] h-[43px] p-[7px]"
+          >
             <SlArrowRight className="text-white text-[25px] hover:text-[#ffffff99] mt-[2px] ml-[4px]" />
           </div>
         </div>
